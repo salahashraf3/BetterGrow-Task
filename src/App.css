@@ -8,6 +8,8 @@
 
 .page__intro {
   max-width: 46rem;
+  margin: 0 auto;
+  text-align: center;
 }
 
 .page__topline {
@@ -38,7 +40,7 @@
 }
 
 .page__lede {
-  margin: 0.85rem 0 0;
+  margin: 0.85rem auto 0;
   max-width: 38rem;
   color: var(--muted);
   font-size: 1.02rem;
