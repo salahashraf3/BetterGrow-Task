@@ -1,6 +1,7 @@
 .upload-panel {
-  margin-top: 2.25rem;
+  margin: 2.25rem auto 0;
   max-width: 40rem;
+  text-align: center;
   min-width: 0;
 }
 
