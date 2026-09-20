@@ -1,0 +1,29 @@
+.page {
+  width: 100%;
+  max-width: 72rem;
+  margin: 0 auto;
+  padding: 1.25rem 1rem 2.5rem;
+  min-width: 0;
+}
+
+.page__intro {
+  max-width: 40rem;
+}
+
+.page h1 {
+  margin: 0;
+  font-size: clamp(1.55rem, 4vw, 2.1rem);
+  letter-spacing: -0.04em;
+  color: #0f172a;
+}
+
+.page__lede {
+  margin: 0.5rem 0 0;
+  color: #334155;
+}
+
+@media (min-width: 768px) {
+  .page {
+    padding: 2rem 1.5rem 3rem;
+  }
+}

@@ -1,0 +1,75 @@
+.upload-panel {
+  margin-top: 1.5rem;
+  max-width: 40rem;
+  min-width: 0;
+}
+
+.upload-panel h2 {
+  margin: 0 0 0.5rem;
+  font-size: 1.2rem;
+}
+
+.upload-panel__hint,
+.upload-panel__drop-hint,
+.upload-panel__file {
+  margin: 0;
+  color: #334155;
+}
+
+.upload-panel__dropzone {
+  margin: 1rem 0;
+  padding: 1.25rem;
+  border: 2px dashed #64748b;
+  border-radius: 0.75rem;
+  background: #fff;
+}
+
+.upload-panel__dropzone.is-dragging {
+  border-color: #0f766e;
+  background: #f0fdfa;
+}
+
+.upload-panel__label {
+  display: inline-block;
+  padding: 0.55rem 1rem;
+  border-radius: 0.45rem;
+  background: #0f766e;
+  color: #fff;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.upload-panel__label:hover {
+  background: #115e59;
+}
+
+.upload-panel__input {
+  display: block;
+  margin-top: 0.85rem;
+  max-width: 100%;
+  color: #0f172a;
+}
+
+.upload-panel__input:focus,
+.upload-panel__input:focus-visible,
+.upload-panel__label:focus-visible {
+  outline: 3px solid #0f172a;
+  outline-offset: 3px;
+}
+
+.upload-panel__drop-hint {
+  margin-top: 0.75rem;
+}
+
+.upload-panel__file {
+  min-height: 1.5em;
+}
+
+.upload-panel__errors {
+  margin-top: 0.75rem;
+  color: #9f1239;
+}
+
+.upload-panel__errors p {
+  margin: 0 0 0.35rem;
+}
