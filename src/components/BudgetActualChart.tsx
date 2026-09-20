@@ -13,6 +13,7 @@ import {
 import { Bar } from 'react-chartjs-2'
 import { formatAed } from '../domain/format'
 import type { SalespersonResult } from '../domain/types'
+import { useTheme } from '../state/useTheme'
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend)
 
@@ -20,10 +21,32 @@ type BudgetActualChartProps = {
   readonly rows: readonly SalespersonResult[]
 }
 
-const BUDGET_COLOR = '#1e3a8a'
-const ACTUAL_COLOR = '#0f766e'
+type ChartPalette = {
+  readonly budget: string
+  readonly actual: string
+  readonly text: string
+  readonly grid: string
+}
+
+const PALETTES: Record<'light' | 'dark', ChartPalette> = {
+  light: {
+    budget: '#1f3a32',
+    actual: '#0f766e',
+    text: '#5c6b62',
+    grid: '#e8e2d2',
+  },
+  dark: {
+    budget: '#7a8f86',
+    actual: '#2dd4bf',
+    text: '#9aaca0',
+    grid: '#2e3b33',
+  },
+}
 
 export default function BudgetActualChart({ rows }: BudgetActualChartProps) {
+  const { theme } = useTheme()
+  const palette = PALETTES[theme]
+
   const data = useMemo(
     (): ChartData<'bar'> => ({
       labels: rows.map((row) => row.salesperson),
@@ -31,20 +54,22 @@ export default function BudgetActualChart({ rows }: BudgetActualChartProps) {
         {
           label: 'Budget',
           data: rows.map((row) => row.budget),
-          backgroundColor: BUDGET_COLOR,
-          borderColor: BUDGET_COLOR,
+          backgroundColor: palette.budget,
+          borderColor: palette.budget,
           borderWidth: 1,
+          borderRadius: 4,
         },
         {
           label: 'Actual Sales',
           data: rows.map((row) => row.actual),
-          backgroundColor: ACTUAL_COLOR,
-          borderColor: ACTUAL_COLOR,
+          backgroundColor: palette.actual,
+          borderColor: palette.actual,
           borderWidth: 1,
+          borderRadius: 4,
         },
       ],
     }),
-    [rows],
+    [rows, palette],
   )
 
   const options = useMemo(
@@ -56,44 +81,45 @@ export default function BudgetActualChart({ rows }: BudgetActualChartProps) {
           display: true,
           position: 'bottom',
           labels: {
-            color: '#0f172a',
+            color: palette.text,
             boxWidth: 14,
             font: { size: 13 },
           },
         },
         title: {
           display: true,
-          text: 'Budget vs Actual by salesperson',
-          color: '#0f172a',
-          font: { size: 15, weight: 600 },
+          text: 'Budget vs Actual Sales by salesperson',
+          color: palette.text,
+          font: { size: 13, weight: 'normal' },
         },
         tooltip: {
           callbacks: {
-            label(item): string {
-              const label = item.dataset.label ?? ''
-              const value = typeof item.parsed.y === 'number' ? item.parsed.y : 0
-              return `${label}: ${formatAed(value)}`
+            label(context): string {
+              const value = context.parsed.y
+              const series = context.dataset.label ?? ''
+              return `${series}: ${formatAed(typeof value === 'number' ? value : 0)}`
             },
           },
         },
       },
       scales: {
         x: {
-          ticks: { color: '#334155', maxRotation: 45, minRotation: 0 },
+          ticks: { color: palette.text, maxRotation: 45, minRotation: 0 },
           grid: { display: false },
         },
         y: {
           beginAtZero: true,
           ticks: {
-            color: '#334155',
+            color: palette.text,
             callback(value): string {
               return typeof value === 'number' ? formatAed(value) : value
             },
           },
+          grid: { color: palette.grid },
         },
       },
     }),
-    [],
+    [palette],
   )
 
   const description = rows

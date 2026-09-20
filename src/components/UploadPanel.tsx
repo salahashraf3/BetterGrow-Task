@@ -54,7 +54,7 @@ export default function UploadPanel({ session }: UploadPanelProps) {
   }
 
   return (
-    <section className="upload-panel" aria-labelledby="upload-heading">
+    <section className="upload-panel rise" aria-labelledby="upload-heading">
       <h2 id="upload-heading">Upload workbook</h2>
       <p className="upload-panel__hint">
         Excel files only (.xlsx or .xls). The first worksheet is read.

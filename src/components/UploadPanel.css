@@ -1,73 +1,87 @@
 .upload-panel {
-  margin-top: 1.5rem;
+  margin-top: 2.25rem;
   max-width: 40rem;
   min-width: 0;
 }
 
 .upload-panel h2 {
   margin: 0 0 0.5rem;
-  font-size: 1.2rem;
+  font-family: 'Iowan Old Style', 'Palatino Linotype', Palatino, Georgia, serif;
+  font-size: 1.35rem;
+  font-weight: 600;
+  color: var(--ink);
 }
 
 .upload-panel__hint,
 .upload-panel__drop-hint,
 .upload-panel__file {
   margin: 0;
-  color: #334155;
+  color: var(--muted);
 }
 
 .upload-panel__dropzone {
   margin: 1rem 0;
-  padding: 1.25rem;
-  border: 2px dashed #64748b;
-  border-radius: 0.75rem;
-  background: #fff;
+  padding: 2rem 1.5rem;
+  border: 2px dashed var(--line);
+  border-radius: 1rem;
+  background: var(--surface);
+  box-shadow: var(--shadow);
+  text-align: center;
+  transition: border-color 0.2s ease, background-color 0.2s ease;
 }
 
 .upload-panel__dropzone.is-dragging {
-  border-color: #0f766e;
-  background: #f0fdfa;
+  border-color: var(--accent);
+  background: var(--accent-soft);
 }
 
 .upload-panel__label {
   display: inline-block;
-  padding: 0.55rem 1rem;
-  border-radius: 0.45rem;
-  background: #0f766e;
-  color: #fff;
+  padding: 0.6rem 1.15rem;
+  border-radius: 999px;
+  background: var(--accent);
+  color: var(--accent-ink);
   font-weight: 600;
   cursor: pointer;
+  transition: background-color 0.15s ease, transform 0.15s ease;
 }
 
 .upload-panel__label:hover {
-  background: #115e59;
+  background: var(--accent-strong);
+}
+
+.upload-panel__label:active {
+  transform: translateY(1px);
 }
 
 .upload-panel__input {
   display: block;
-  margin-top: 0.85rem;
+  margin: 0.9rem auto 0;
   max-width: 100%;
-  color: #0f172a;
+  color: var(--ink);
 }
 
 .upload-panel__input:focus,
 .upload-panel__input:focus-visible,
 .upload-panel__label:focus-visible {
-  outline: 3px solid #0f172a;
+  outline: 3px solid var(--accent);
   outline-offset: 3px;
 }
 
 .upload-panel__drop-hint {
-  margin-top: 0.75rem;
+  margin-top: 0.85rem;
+  font-size: 0.92rem;
 }
 
 .upload-panel__file {
   min-height: 1.5em;
+  font-size: 0.95rem;
 }
 
 .upload-panel__errors {
   margin-top: 0.75rem;
-  color: #9f1239;
+  color: var(--danger);
+  font-size: 0.95rem;
 }
 
 .upload-panel__errors p {

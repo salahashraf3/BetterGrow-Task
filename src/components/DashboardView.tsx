@@ -12,12 +12,14 @@ type DashboardViewProps = {
 function KpiCard({
   title,
   value,
+  accent = false,
 }: {
   readonly title: string
   readonly value: string
+  readonly accent?: boolean
 }) {
   return (
-    <article className="kpi-card" aria-label={title}>
+    <article className={accent ? 'kpi-card kpi-card--accent' : 'kpi-card'} aria-label={title}>
       <h3>{title}</h3>
       <p>{value}</p>
     </article>
@@ -26,7 +28,7 @@ function KpiCard({
 
 export default function DashboardView({ fileName, summary }: DashboardViewProps) {
   return (
-    <section className="dashboard" aria-label="Sales performance">
+    <section className="dashboard rise" aria-label="Sales performance">
       <header className="dashboard__header">
         <h2>Performance</h2>
         <p className="dashboard__file">Workbook: {fileName}</p>
@@ -41,6 +43,7 @@ export default function DashboardView({ fileName, summary }: DashboardViewProps)
         <KpiCard
           title="Overall Achievement"
           value={formatAchievementPercent(summary.overallAchievementPercent)}
+          accent
         />
         <KpiCard title="On target" value={String(summary.onTargetCount)} />
         <KpiCard title="Below target" value={String(summary.belowTargetCount)} />
