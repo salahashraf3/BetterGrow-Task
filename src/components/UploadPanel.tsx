@@ -14,11 +14,36 @@ type UploadPanelProps = {
   readonly session: WorkbookSession
 }
 
+type SampleWorkbook = {
+  readonly label: string
+  readonly description: string
+  readonly fileName: string
+}
+
+const SAMPLE_WORKBOOKS: readonly SampleWorkbook[] = [
+  {
+    label: 'Valid workbook',
+    description: 'Loads the complete dashboard',
+    fileName: 'BGH_Sample_Valid.xlsx',
+  },
+  {
+    label: 'Invalid rows',
+    description: 'Shows row-level validation',
+    fileName: 'BGH_Sample_Invalid_Rows.xlsx',
+  },
+  {
+    label: 'Duplicate entry',
+    description: 'Shows duplicate salesperson-month validation',
+    fileName: 'BGH_Sample_Duplicate.xlsx',
+  },
+]
+
 export default function UploadPanel({ session }: UploadPanelProps) {
   const inputId = useId()
   const errorId = useId()
   const fileStatusId = useId()
   const [isDragging, setIsDragging] = useState(false)
+  const [sampleLoadError, setSampleLoadError] = useState<string | null>(null)
   const isReading = session.status === 'reading'
   const hasErrors = session.issues.length > 0
 
@@ -29,6 +54,26 @@ export default function UploadPanel({ session }: UploadPanelProps) {
       void session.processFile(file)
     }
     input.value = ''
+  }
+
+  async function handleSampleClick(sample: SampleWorkbook): Promise<void> {
+    setSampleLoadError(null)
+
+    try {
+      const response = await fetch(
+        `${import.meta.env.BASE_URL}samples/${sample.fileName}`,
+      )
+      if (!response.ok) {
+        throw new Error('Sample workbook could not be loaded')
+      }
+
+      const workbook = new File([await response.blob()], sample.fileName, {
+        type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+      })
+      await session.processFile(workbook)
+    } catch {
+      setSampleLoadError('The testing sample could not be loaded. Please try again.')
+    }
   }
 
   function handleDragOver(event: DragEvent<HTMLDivElement>): void {
@@ -87,6 +132,32 @@ export default function UploadPanel({ session }: UploadPanelProps) {
         />
         <p className="upload-panel__drop-hint">or drag and drop it here</p>
       </div>
+
+      <aside className="upload-panel__samples" aria-labelledby="sample-heading">
+        <div className="upload-panel__samples-intro">
+          <h3 id="sample-heading">Testing samples</h3>
+          <p>Optional files for quickly checking the upload states.</p>
+        </div>
+        <div className="upload-panel__sample-list">
+          {SAMPLE_WORKBOOKS.map((sample) => (
+            <button
+              key={sample.fileName}
+              className="upload-panel__sample"
+              type="button"
+              disabled={isReading}
+              onClick={() => void handleSampleClick(sample)}
+            >
+              <span>{sample.label}</span>
+              <small>{sample.description}</small>
+            </button>
+          ))}
+        </div>
+        {sampleLoadError ? (
+          <p className="upload-panel__sample-error" role="alert">
+            {sampleLoadError}
+          </p>
+        ) : null}
+      </aside>
 
       <p id={fileStatusId} className="upload-panel__file" aria-live="polite">
         {isReading ? 'Reading workbook… ' : null}
